@@ -1,0 +1,4 @@
+#Todos los archivos for backup
+/home/mic/Documents/
+
+

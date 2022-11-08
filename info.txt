@@ -1,0 +1,9 @@
+
+
+
+syslog
+https://www.geeksforgeeks.org/syslog-message-logging-protocol/
+
+
+
+gcc -o funsync main.c goodys.c */
