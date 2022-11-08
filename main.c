@@ -15,6 +15,7 @@ typedef enum{false,true} bool;
 /*Function writes log to system.*/
 void systemlog(int i);
 
+
 int main(int argc, char *argv[]){
 
     char dt[9];
