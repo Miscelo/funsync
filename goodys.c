@@ -3,42 +3,50 @@
 #include<unistd.h>
 #include<time.h>
 #include<string.h>
-#include<stdarg.h>
+#include<syslog.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 
-char *strxcat(char *str, ...){
-    if (str == NULL)
-        return NULL;
-
-    int totlen = strlen(str);     //wir definieren erste Argument länge 
-    va_list lenlist, strlist;     // wir definieren 2 listen
-    va_start (lenlist, str);      // starten werden wir beim ersten ARgument
-    va_copy (strlist, lenlist);   //wir kopieren die eine Liste in eine 2.
-    
-    char *p = va_arg(lenlist, char *);    //Wir definieren unser 'START'-p für den while-loop
-    while (p){                            //so lange Argumente vorhanden sind ....
-        totlen += strlen (p);
-        p = va_arg (lenlist, char *);     // geh zum nächsten argument
-    };
-    va_end (lenlist);
-    char *newstr = malloc (totlen);
-    if(newstr == NULL){
-        printf("ERROR, not enough space!\n");
+/*Function return User ID of linux USER. root=0, sudo=1000*/
+char *getUID(){
+    char *cmd = "id -g";
+    int status;       /*to check if all process well done.*/
+    /*Open a pipe stream for reading data data from bash command.*/
+    FILE *tmp = popen(cmd, "r");
+    if(tmp == NULL){
+        fprintf(stderr, "ERROR! No space on memory can be assigned.\n");
         exit(1);
     }
-    strcpy(newstr, str);                //copieren wir das erste argument in den neuen String
-    p = va_arg (strlist, char *);
-
-    while(p){                          // im While-loop konkatenaten wir ein argument nach den anderen an den String 
-        strcat(newstr, p); 
-        p = va_arg (strlist, char *);
+    char uID[6];
+    fgets(uID, 6, tmp);     /*write pipestream to a char array.*/
+    status = pclose(tmp);      /*close pipe stream with a status check.*/
+    if(status == -1){
+        fprintf(stderr, "User ID can not be cached!\n");;
     }
-
-    va_end(strlist);
-    return newstr;
+    return strtok(uID, "\n");    /* eliminate NEWLINE from fgets*/
 }
 
 
+void systemlog(int i){
+    char *user = getenv("USER");
+    char *userID;
+    userID = getUID();
+    char logMessage[1024];
+    char uid[6];
+    strcpy(uid, userID); 
+    printf("USER SYUSTEM: %s\n", uid);
+    openlog("funsync", LOG_PID, LOG_USER);
+    /* system() command returns -1 in case of error. */
+    if(i!=-1){                            
+        sprintf(logMessage, "Start backup - by user (%s)(uid=%s)", user, uid);
+        syslog(LOG_INFO, logMessage);
+    } else {
+        syslog(LOG_ERR, "Backup not starting!");
+    }
+    closelog();
+}
 
 
 
@@ -52,3 +60,4 @@ const char *getdate(){
     char *dt = buffer;
     return dt;
 }
+

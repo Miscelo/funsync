@@ -11,4 +11,7 @@ char *strxcat(char *str, ...);
 const char *getdate();
 
 
+/*Function devuelve la USER ID en un string. UID is a shell varible and not a environmental variable*/
+char *getUID();
+
 #endif
