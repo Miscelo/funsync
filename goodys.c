@@ -29,23 +29,23 @@ char *getUID(){
 }
 
 
-void systemlog(int i){
+void systemlog(int sysstate){
     char *user = getenv("USER");
     char *userID;
     userID = getUID();
     char logMessage[1024];
     char uid[6];
     strcpy(uid, userID); 
-    printf("USER SYUSTEM: %s\n", uid);
     openlog("funsync", LOG_PID, LOG_USER);
-    /* system() command returns -1 in case of error. */
-    if(i!=-1){                            
-        sprintf(logMessage, "Start backup - by user (%s)(uid=%s)", user, uid);
+    /* system() command returns 0 if everything is right. */
+    if(sysstate == 0){                            
+        sprintf(logMessage, "Backup startet by user %s (uid=%s)", user, uid);
         syslog(LOG_INFO, logMessage);
     } else {
-        syslog(LOG_ERR, "Backup not starting!");
+        syslog(LOG_ERR, "EXECUTION ERROR! Backup has not been started!");
     }
     closelog();
+    
 }
 
 

@@ -20,9 +20,9 @@ int main(int argc, char *argv[]){
     strcpy(dt, getdate());
     printf("Date: %s\n", dt);
     
-    char *systemcmd = "rsync -n -av";
-    char *backupsource = "~/Testfolder";
-    char *backupdestination = "~/TestfolderBackup";
+    char *systemcmd = "rsync -av";
+    char *backupsource = "~/Testfolder ~/Testfolder2";
+    char *backupdestination = "~/Backup";
     char cmd[1024];
     sprintf(cmd, "%s %s %s", systemcmd, backupsource, backupdestination);
     sysstate = system(cmd);
