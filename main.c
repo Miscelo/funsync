@@ -11,7 +11,6 @@
 #include <unistd.h>
 #include "goodys.h"
 
-typedef enum{false,true} bool;
 
 
 int main(int argc, char *argv[]){
