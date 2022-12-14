@@ -19,7 +19,10 @@ int main(int argc, char *argv[]){
     strcpy(dt, getdate());
     printf("Date: %s\n", dt);
     
-    char *systemcmd = "rsync -av";
+    /* rsync -av  Transfer all files in Archive-Mode, ensures that devices, symbolic links , attributes, permissions,
+       ownership are preserved in transfer. Also 'rsync -avz' will compressed it.
+       rsync -avz /folder1 /folder2 /folder3 user@host::/home/user/backup   */
+    char *systemcmd = "rsync -nav";
     char *backupsource = "~/Testfolder ~/Testfolder2";
     char *backupdestination = "~/Backup";
     char cmd[1024];
