@@ -1,4 +1,12 @@
 #Todos los archivos for backup
-/home/mic/Documents/
+/home/mic/pro/c/Testfolder1
+/home/mic/pro/c/Testfolder2
+#More folders to be backuped
+/home/mic/pro/c/Testfolder4
+/home/mic/pro/c/Testfolder5
+#Sistem archives for backup
+/home/mic/pro/c/Testfolder6
+/home/mic/pro/c/Testfolder7
+
 
 
